@@ -1,178 +1,128 @@
-# CPP_PROJECT : ALLERGY AND DEFICIENCY ANALYZER
-This is a web-based application called "Allergy and Deficiency Analyzer".
+# 🧬 NutriScan: Allergy & Deficiency Analyzer
 
-# Description:
-Motivation for this project - There are several disease accross the world, and many cannot afford large fees for their diagnosed medical issues.
-This projects aims to build a gap between initial symptoms and professional diagnosis where patients/users can know beforehand what are their symptoms and why is it occuring, what are the recommendations.
-This cloud-based application helps users to analyze their symptoms and provides possible conditions based upon their inputs.
-This project is integrated using 6 AWS services, they are AWS Lambda, SNS, SQS, DynamoDB, S3 and Cloudwatch.
-The Dashboard also displays the SQS queue message on the application to display users/developers how the SQS handles the message queue.
-The UI of the Dashboard displays Home, Allergies, Deficiencies, Logout.
-Home button provides dashboard for users to analyse their symptoms. 
-Allergies and Deficiencies on the dashboard provides users to add, delete, update, read their added allergies and deficiencies on their profile.
+NutriScan is a cloud-based web application designed to help users analyze their symptoms and identify potential nutritional deficiencies and allergies. Built using Django and integrated with multiple AWS services, NutriScan bridges the gap between early symptom awareness and professional diagnosis by offering personalized insights and recommendations.
 
-# Features of this Project:
-1. Authenticates user and manages the profile.<br />
-2. Symtom-based analysis with recommendations<br />
-3. Cloud based database and file storage using AWS.<br />
-4. Notification alerts via AWS SNS.<br />
-5. Secure message processing using AWS SQS.<br />
-6. CI/CD pipeline with GitHub actions.<br />
-7. Static Code Analysis using pylint.<br />
-8. Custom Python library for Symptom analysis. <br />
+---
 
-# Technologies used are:
-For Backend: <br />
-    --Django, python <br />
-For Cloud Services: <br />
-    --AWS Cloudwatch, S3, DynamoDB, SNS, SQS, Lambda <br />
-For CI/CD: <br />
-    --GitHub Actions <br />
-For Static Code Analysis: <br />
-    --Pylint <br />
-For Frontend: <br />
-    --HTML, CSS <br />
-Custom Library:
-    I have created a custom library to handle the data for analysis when a user provides the symptoms on the dashboard. <br />
-    In the Directory named lambda_package/symptom_analysis  - <br /> 
-    a. data.py : This file has limited data to map the symptoms, conditions and recommedations to the user  <br />
-    b. analyzer.py: This file has the logic behind analysing the symptom and medical history from the dashboard <br />
-    Published in pypi: <br />
-    https://pypi.org/project/symptom-analysis/1.0.2/  <br />
+## 📖 Description
 
-# This Project is Deployed in AWS using Elastic Beanstalk:
-    http://allergyanalyzersystem-env.eba-eyus5yb4.us-east-1.elasticbeanstalk.com/
+In many parts of the world, access to affordable healthcare is a challenge. NutriScan aims to provide an initial layer of health awareness by allowing users to input symptoms and receive meaningful insights about possible causes — such as allergies or deficiencies — and what steps to take next.
 
-# About AWS services used in this project and reason for them:
-# 1. AWS Elastic Beanstalk:
-purpose:<br />
-Elastic beanstalk simplifies the scaling, management and deployment of web applications.<br />
-Why was it used: <br />
-a. Easy deployment <br />
-b. Built-in Monitoring facility.
+This project is deployed using **AWS Elastic Beanstalk** and integrates six major AWS services: **Lambda**, **SNS**, **SQS**, **DynamoDB**, **S3**, and **CloudWatch**.
 
-# 2. AWS Simple Notification Service (SNS):
+Key highlights:
+- Analyze symptoms with a custom-built Python library
+- Cloud-native infrastructure for scalability and availability
+- Real-time notifications and message queuing
+- Dashboard UI for symptom entry, history tracking, and AWS service visualization
 
-purpose:<br />
-SNS is a messaging service providing facility to alert users via email/SMS.<br />
-<br />
-why was this used:<br />
-It provides easy subscription.<br />
-Messages are reliable.<br />
-Real-time Alerts to users.<br />
-<br />
-# 3. AWS Simple Queue Service (SQS)
+---
 
-purpose:<br />
-SQS is a queuing system used to handle the processing of messages.<br />
-<br />
-why was this used:<br />
-Ensures asynchronous processing like when users enter symptoms the analysis requests are queued.<br />
-Preventing overloading of messages.<br />
-Reliable delivery of message processing.<br />
+## 🚀 Features
 
-# 4. AWS DynamoDB<br />
+1. User authentication and profile management  
+2. Symptom-based analysis with dietary/medical recommendations  
+3. Cloud-based database and storage (DynamoDB, S3)  
+4. Notification alerts via AWS SNS  
+5. Asynchronous processing using AWS SQS  
+6. CI/CD pipeline with GitHub Actions  
+7. Static code analysis with pylint  
+8. Custom Python library for symptom analysis  
 
-purpose:<br />
-DynamoDB is a NoSQL database for storing user data and their symptom history.<br />
-<br />
-why was this used:<br />
-a. Scalability - Scales automatically based on the loads.<br />
-b. High availability as data is being replicated across many AWS regions.<br />
-c. No need for the database management<br />
+---
 
-# 5. S3 (Simple Storage Service)
+## 🛠️ Technologies Used
 
-purpose:<br />
-S3 provides storage facilities in AWS for files generated from the analysis on the dashboard.<br />
+**Backend**  
+- Django (Python)
 
-# Setup Instructions: (Cloud9 is used for this project)
+**Frontend**  
+- HTML, CSS
 
-# 1. Clone the repository:
+**Cloud Services (AWS)**  
+- Elastic Beanstalk  
+- Lambda  
+- SNS  
+- SQS  
+- DynamoDB  
+- S3  
+- CloudWatch  
 
-git clone https://github.com/Yashashwini0310/cpp_project.git<br />
-cd allergy-analyzer<br />
+**CI/CD**  
+- GitHub Actions
 
-# 2. Create a virtual environment and install the dependencies:
+**Static Code Analysis**  
+- Pylint
 
-python -m venv env<br />
-source env/bin/activate (linux based project)<br />
-pip install -r requirements.txt<br />
-<br />
-# 3. If using Learners lab, check if these AWS are accessible and setup AWS credentials using boto3 accordingly
-<br />
-# 4. Run the application locally first:
-<br />
-python manage.py migrate<br />
-python manage.py runserver 8080<br />
-<br />
-# 5. Lastly, Deploy to Elastic Beantalk:
-<br />
-(deactivate the virtual environment and then perform below steps)
-a. install awsebcli : pip install awsebcli<br />
-<br />
-b. Helps in initializing the eb from terminal, you can provide any name of your choice, as this creates the function on AWS<br />
-eb init -p python-<version> <function_name> <br />
-<for example: eb init -p python-3.9 AllergyAnalyzer><br />
-<br />
-c. Helps in deploying the environment created<br />
-eb deploy or use eb deploy AllergyAnalyzer-env<br />
-<br />
-d. you can open your deployed AWS domain of your project using below command<br />
-eb open<br />
-<br />
-# For testing
-Run tests Locally:<br />
-python3 manage.py test <br />
-<br />
-Run Pylint for Static Code Analysis locally<br />
-if your root folder is Allergy_Analyzer:<br />
-pylint Allergy_Analyzer<br />
-if you want to run for each folder use: <br />
-pylint user_management/ <br />
-<br />
-# How to use: 
-1. Register/login the application<br />
-2. Enter Symtoms (example: Fever, headache, fatigue, chest pain, cough) <br />
-   Enter your Medical history if available (eg. diabetes, Heart Disease, Hypertension, Asthma) <br />
-   Get your report on possible results (deficiencies/allergy)<br />
-3. Subscribe to SNS alerts for notifications.<br />
-4. Accept the request on your mail. <br />
-5. You will be notified everytime your symptoms are entered<br />
-6. you can also view SQS queue in the application.<br />
-<br />
-# Please Note 
-This project has manual datasets provided for the analysis. Hence the medical history is limited, you can provide above example medical history for testing.<br />
-<br />
-# Known Issues and future Enhancements:
---Expand medical history database for better recommendations.<br />
---Enhance UI for more user experience<br />
---Add more AWS security measures.<br />
---Enhance the analyzer by adding robust API for more accurate results.<br />
-<br />
-<br />
-# Author : Yashashwini
-# linkedIn : https://www.linkedin.com/in/yashashwini-s-485283190/ 
+---
 
-# Home Page, Login Page, Subscribe, allergy and deficieny ribbon. 
-![image](https://github.com/user-attachments/assets/88c72963-1ab7-468f-9816-c0f5df7a9e5f)
+## 🧠 Custom Python Library
 
-![image](https://github.com/user-attachments/assets/8e4254fd-6888-4db4-9684-55c2b780d248)
+A dedicated library for analyzing user symptoms:
 
-# Dashboard before and after entering symptoms
-![image](https://github.com/user-attachments/assets/0a23fd74-6e99-4bff-a09a-13d8ff2ebc17)
+📦 `lambda_package/symptom_analysis/`  
+- `data.py`: Contains symptom-to-condition mapping and recommendations  
+- `analyzer.py`: Logic for processing symptom inputs and generating results  
 
-![image](https://github.com/user-attachments/assets/8a384812-4b0d-4493-8b0c-1e43e72e22e9)
+🔗 Published on PyPI:  
+[https://pypi.org/project/symptom-analysis/1.0.2/](https://pypi.org/project/symptom-analysis/1.0.2/)
 
-# Subscribe to news page
-![image](https://github.com/user-attachments/assets/308df69b-e7c6-4d5f-8e1c-440c09b8843e)
+---
 
-# Deficiency and Allergy Page
-![image](https://github.com/user-attachments/assets/f84e303d-7012-402e-aebe-dee476726bf8)
+## 🌐 Deployment
 
-![image](https://github.com/user-attachments/assets/831da49b-9b2a-42b1-9161-a5d397c4dc6b)
+Deployed on **AWS Elastic Beanstalk**:  
+🔗 [Live Application](http://allergyanalyzersystem-env.eba-eyus5yb4.us-east-1.elasticbeanstalk.com/)
 
+---
 
+## 📦 AWS Services Explained
 
+### 1. Elastic Beanstalk
+Simplifies deployment, scaling, and monitoring of the web app.
+- Easy to deploy and manage
+- Built-in monitoring and logging
 
+### 2. SNS (Simple Notification Service)
+Used for sending real-time alerts to users via email/SMS.
 
+### 3. SQS (Simple Queue Service)
+Ensures reliable, asynchronous message processing for symptom analysis requests.
+
+### 4. DynamoDB
+NoSQL database to store user data, symptom history, and recommendations.
+
+### 5. S3 (Simple Storage Service)
+Stores files generated from the analysis and UI interactions.
+
+### 6. CloudWatch
+Monitors logs and application performance metrics.
+
+---
+
+## ⚙️ Setup Instructions
+
+### Prerequisites:
+- Python 3.x
+- AWS CLI & credentials set up (for AWS services)
+- Cloud9 or local environment
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/Yashashwini0310/cpp_project.git
+cd allergy-analyzer
+
+# Create virtual environment
+python -m venv env
+source env/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run database migrations
+python manage.py migrate
+
+# Start the server
+python manage.py runserver 8080
