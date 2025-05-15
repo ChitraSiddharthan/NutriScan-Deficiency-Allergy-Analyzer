@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* General Page Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #007bff;
+            padding: 10px 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Results Styling */
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9f5ff;
+            border-left: 5px solid #007bff;
+        }
+
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Logout Link */
+        .logout {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Home</a></li>
+            <li><a href="{% url 'allergy_list' %}">Manage Allergies</a></li>
+            <li><a href="{% url 'deficiency_list' %}">Manage Deficiencies</a></li>
+            <li><a href="{% url 'subscribe_sns' %}">Subscribe</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h2>Welcome, {{ user.username }}</h2>
+
+        <!-- Display User Symptoms -->
+        <p><strong>Your Symptoms:</strong> {{ user.userprofile.symptoms|default:"No symptoms recorded" }}</p>
+
+        <!-- Display User Medical History -->
+        <p><strong>Your Medical History:</strong> {{ user.userprofile.medical_history|default:"No medical history recorded" }}</p>
+
+        <!-- Symptom Analysis Form -->
+        <h3>Enter Symptoms for Analysis:</h3>
+        <form method="post" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <label for="symptoms">Symptoms (comma-separated):</label>
+            <input type="text" id="symptoms" name="symptoms" placeholder="e.g., headache, fatigue" required>
+
+            <!-- Ask user about medical history before analysis -->
+            <label for="medical_history">Do you have any previous medical conditions?</label>
+            <textarea id="medical_history" name="medical_history" placeholder="E.g., Diabetes, Hypertension"></textarea>
+
+            <button type="submit">Analyze</button>
+        </form>
+        
+         {% if result %}
+    <div class="results">
+        <h3>Predicted Conditions:</h3>
+        <ul>
+            {% for condition in result.conditions %}
+                <li><strong>Possible Condition:</strong> {{ condition }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Your Symptoms:</strong> {{ symptoms }}</p>
+        <h4>Severity Level: {{ severity_level }}</h4>
+
+        {% if recommendation %}
+            <h4>Recommendations:</h4>
+            <ul>
+                {% for item in recommendation %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% if user.userprofile.report_url %}
+           <p><strong>Download Your Analysis Report:</strong> <a href="{{ user.userprofile.report_url }}" target="_blank">Download Report</a></p>
+        {% endif %}
+
+        <p style="color: red; font-weight: bold;">{{ disclaimer }}</p>
+        
+        {% if analysis_history %}
+    <h3>Your Analysis History</h3>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Symptoms</th>
+            <!--<th>Result</th>-->
+            <th>Report</th>
+        </tr>
+        {% for item in analysis_history %}
+        <tr>
+            <td>{{ item.timestamp }}</td>
+            <td>{{ item.symptoms }}</td>
+            <!--<td>{{ item.recommendation }}</td>-->
+            <td><a href="{{ item.s3_report_url }}" target="_blank">Download Report</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No analysis history found.</p>
+    {% endif %}
+
+        
+        <!-- ✅ SQS Alerts Section with Styling -->
+        {% if messages %}
+        <h3 style="color: red;">🚨 Alerts:</h3>
+            <ul style="background-color: #ffebeb; padding: 10px; border-left: 5px solid red;">
+    <ul>
+        {% for message in messages %}
+            <li>
+                {% if message.error %}
+                    Error: {{ message.error }}
+                {% else %}
+                    User: {{ message.user }}<br>
+                    Symptoms: {{ message.symptoms }}<br>
+                    Result: {{ message.result }}<br>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No messages in the SQS queue.</p>
+    {% endif %}
+    </div>
+    {% else %}
+    <div class="results">
+        <p>No analysis performed yet. Please enter your symptoms and medical history.</p>
+    </div>
+{% endif %}
+
+
+        <a class="logout" href="{% url 'logout' %}">Logout</a>
+    </div>
+
+</body>
+</html>

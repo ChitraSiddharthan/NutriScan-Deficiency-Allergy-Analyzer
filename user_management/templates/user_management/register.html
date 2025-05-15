@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <h2 class="text-center mb-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Register</h2>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <div class="mb-3">
+                            <label for="medical_history" class="form-label" style="font-weight: 600;">Medical History:</label>
+                            <textarea id="medical_history" name="medical_history" class="form-control" placeholder="E.g., Diabetes, Hypertension" style="border-radius: 5px; border: 1px solid #ccc; padding: 8px 12px; width: 100%; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #007bff; border-color: #007bff; padding: 10px 20px; border-radius: 5px; font-weight: 600;">Register</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        Already have an account? <a href="{% url 'login' %}" style="color: #007bff; font-weight: 600;">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] { /* Added email input style */
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        width: 100%;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus { /* Added email input focus style */
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+{% endblock %}

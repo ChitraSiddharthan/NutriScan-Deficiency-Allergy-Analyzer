@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div class="card-body">
+                    <h2 class="text-center mb-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Login</h2>
+
+                    <p class="text-center mb-4" style="font-size: 1.1em; color: #333;">
+                        <strong>Welcome to the Allergy Analysis System.</strong><br>
+                        Please login or register below to continue.
+                    </p>
+
+                    <p class="text-center mb-4 font-italic" style="color: #666;">
+                        "The greatest wealth is health." - Virgil<br>
+                        "Let food be thy medicine and medicine be thy food." - Hippocrates
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label" style="font-weight: 600;">Username:</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label" style="font-weight: 600;">Password:</label>
+                            {{ form.password }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #007bff; border-color: #007bff; padding: 10px 20px; border-radius: 5px; font-weight: 600;">Login</button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        Don't have an account? <a href="{% url 'register' %}" style="color: #007bff; font-weight: 600;">Register here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"],
+    input[type="password"] {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        width: 100%;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+{% endblock %}

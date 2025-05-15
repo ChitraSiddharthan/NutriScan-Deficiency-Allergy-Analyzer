@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Deficiency List</h2>
+<a href="{% url 'deficiency_create' %}">Add New Deficiency</a>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Severity</th>
+        <th>Actions</th>
+    </tr>
+    {% for deficiency in deficiencies %}
+    <tr>
+        <td>{{ deficiency.name }}</td>
+        <td>{{ deficiency.severity }}</td>
+        <td>
+            <a href="{% url 'deficiency_update' deficiency.id %}">Edit</a> |
+            <a href="{% url 'deficiency_delete' deficiency.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
