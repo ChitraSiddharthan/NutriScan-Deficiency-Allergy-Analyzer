@@ -203,6 +203,6 @@ The current dataset is manually curated and limited in scope. For accurate testi
 
 Chitra Siddharthan  
 
-🔗 [LinkedIn Profile]([https://www.linkedin.com/in/chitrasiddharthan](https://www.linkedin.com/in/chitra-siddharthan/))
+🔗 [LinkedIn Profile]([https://www.linkedin.com/in/chitra-siddharthan/)]
 
 
