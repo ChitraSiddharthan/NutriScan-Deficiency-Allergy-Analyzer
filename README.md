@@ -109,7 +109,7 @@ Monitors logs and application performance metrics.
 
 ### Local Development
 
-```bash
+``` bash 
 # Clone the repository
 
 # Create virtual environment
@@ -124,6 +124,7 @@ python manage.py migrate
 
 # Start the server
 python manage.py runserver 8080
+```
 
 
 ## 🚢 Deploy to AWS Elastic Beanstalk
@@ -153,6 +154,7 @@ python3 manage.py test
 pylint Allergy_Analyzer
 # or for individual folders
 pylint user_management/
+```
 
 # 🧭 How to Use
 
