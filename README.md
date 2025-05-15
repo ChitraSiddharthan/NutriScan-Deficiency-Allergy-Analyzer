@@ -111,8 +111,6 @@ Monitors logs and application performance metrics.
 
 ```bash
 # Clone the repository
-git clone https://github.com/Yashashwini0310/cpp_project.git
-cd allergy-analyzer
 
 # Create virtual environment
 python -m venv env
@@ -126,3 +124,83 @@ python manage.py migrate
 
 # Start the server
 python manage.py runserver 8080
+
+
+## 🚢 Deploy to AWS Elastic Beanstalk
+
+```bash
+# Deactivate virtual environment before deploying
+deactivate
+
+# Install Beanstalk CLI
+pip install awsebcli
+
+# Initialize EB environment
+eb init -p python-3.9 AllergyAnalyzer
+
+# Deploy application
+eb deploy
+
+# Open deployed app
+eb open
+
+## 🧪 Testing & Linting
+
+### Run tests locally:
+```bash
+python3 manage.py test
+
+pylint Allergy_Analyzer
+# or for individual folders
+pylint user_management/
+
+# 🧭 How to Use
+
+1. **Register or Log In**  
+   Create an account or log in to access the application.
+
+2. **Enter Symptoms and Medical History**  
+   - Input symptoms like **fever**, **fatigue**, **cough**.  
+   - Include medical history such as **diabetes**, **asthma**.
+
+3. **View Personalized Health Report**  
+   - Get insights into potential **allergies** and **deficiencies**.
+
+4. **Subscribe to SNS Alerts**  
+   - Receive real-time health notifications.
+
+5. **Accept Email Invitation**  
+   - Enable email notifications for critical updates.
+
+6. **View SQS Queue Messages**  
+   - Monitor real-time backend updates through SQS.
+
+---
+
+⚠️ **Note**  
+
+The current dataset is manually curated and limited in scope. For accurate testing, use sample medical history like:  
+
+- **Diabetes**  
+- **Asthma**  
+- **Hypertension**  
+- **Heart Disease**  
+
+---
+
+🛠️ **Future Enhancements**  
+
+- Expand medical dataset and history mapping  
+- Enhance UI/UX for better user experience  
+- Add additional AWS security layers  
+- Integrate external health APIs for improved diagnosis  
+
+---
+
+👩‍💻 **Author**  
+
+Chitra Siddharthan  
+
+🔗 [LinkedIn Profile]([https://www.linkedin.com/in/chitrasiddharthan](https://www.linkedin.com/in/chitra-siddharthan/))
+
+
